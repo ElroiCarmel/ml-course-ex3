@@ -55,10 +55,9 @@ class KNNClassifier:
                 f"There should be exactly 2 unique classes, while you have {len(labels)} classes."
             )
 
-        labels_it = iter(labels)
-        blue_pts = x[y == next(labels_it)]
+        blue_pts = x[y == labels[0]]
         logger.debug("Size of blue points set: %d.", blue_pts.shape[0])
-        red_pts = x[y == next(labels_it)]
+        red_pts = x[y == labels[1]]
         logger.debug("Size of red points set: %d.", red_pts.shape[0])
         epsilon = np.inf
         for bp, rp in product(blue_pts, red_pts):
@@ -153,7 +152,7 @@ def mean_error(pred: np.ndarray, test: np.ndarray) -> np.number:
 
 
 def run_experiment():
-    exp = ex.Experiment()
+    exp = ex.Experiment(results_filename="res11111.csv")
     input_ranges = {
         "flowers": [["versicolor", "virginica"], ["setosa", "virginica"]],
         "k": range(1, 10, 2),
@@ -170,7 +169,4 @@ if __name__ == "__main__":
     import doctest
 
     # print(doctest.testmod())
-    # run_experiment()
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(logging.StreamHandler())
-    classify(["setosa", "virginica"], 3, 2, 34, True)
+    run_experiment()
